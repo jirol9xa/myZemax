@@ -76,9 +76,3 @@ inline void ActionManager::onClick(Vec2 &pos)
             cb_obj.callback(pos);
     }
 }
-
-// void ActionManager::callbacks() const
-// {
-    // for (const auto &call : callbacks_)
-        // call();
-// }

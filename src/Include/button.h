@@ -3,6 +3,7 @@
 #include "widget.h"
 #include "actionManager.h"
 #include "render.h"
+#include <iostream>
 
 class Button : public Widget
 {
@@ -12,18 +13,20 @@ private:
 protected:
     void   press() { is_pressed = !is_pressed; }
     void   draw(uint32_t *PixelArr) const override;
-    void   close() {};
-    void   move(Vec2 &delta) { pos_ += delta; }
-    void   onClick(Vec2 &pos) { is_pressed = !is_pressed; };
-    size_t onKey();
+    void   close() override{};
+    void   move(Vec2 &delta) override { pos_ += delta; }
+    void   onClick(Vec2 &pos) override { 
+        std::cout << "button pressed\n";
+        is_pressed = !is_pressed; };
+    size_t onKey() override { return 0; };
 
-    uint32_t getColor() { return uint32_t(color_); }
+    uint32_t getColor() { return uint32_t(color_) * is_pressed; }
 
 public:
     Button(Vec2 pos, Vec3 color) : Widget(pos, color) {};
     void register_callbacks(ActionManager *mng, Render *rnd) override
     {
-        mng->register_callback_color([this]() -> uint32_t{ getColor(); });
+        mng->register_callback_color([this](){ return getColor(); });
         mng->register_callbacks_onclick(
                            {[this](Vec2 &pos){ onClick(pos); }, ON_CLICK});
         rnd->register_callbacks([this](uint32_t *pixels){ draw(pixels); });

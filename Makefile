@@ -1,12 +1,12 @@
 CC = clang++
 I_FLAG = -I ./src/Include
-C_FLAG = -c -O3
+C_FLAG = -c
 SFML_FLAGS 	= -lsfml-graphics -lsfml-window -lsfml-system
 DEBUG_FLAGS = -Wall -Wextra -Wpedantic -fsanitize=address,leak
 
 
-all: main.o vector.o render.o sphere.o scene.o plane.o vec2.o button.o vec3.o
-	$(CC) main.o vector.o render.o sphere.o scene.o plane.o vec2.o button.o vec3.o -o test $(SFML_FLAGS) $(DEBUG_FLAGS)
+all: main.o vector.o render.o sphere.o scene.o plane.o vec2.o button.o vec3.o canvas.o
+	$(CC) main.o vector.o render.o sphere.o scene.o plane.o vec2.o button.o vec3.o canvas.o -o test $(SFML_FLAGS) $(DEBUG_FLAGS)
 clear:
 	rm -rf *.o
 
@@ -28,3 +28,5 @@ button.o:	src/Button/button.cpp
 	$(CC) $(C_FLAG) src/Button/button.cpp  -o button.o	$(I_FLAG)	-g
 vec3.o:		src/Vec3/vec3.cpp
 	$(CC) $(C_FLAG) src/Vec3/vec3.cpp 	   -o vec3.o 	$(I_FLAG)	-g
+canvas.o:	src/Canvas/canvas.cpp
+	$(CC) $(C_FLAG) src/Canvas/canvas.cpp  -o canvas.o  $(I_FLAG)	-g

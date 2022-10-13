@@ -13,6 +13,8 @@ private:
     void draw(uint32_t *Pixels) const;
     void close() {};
     void onClick(Vec2 &pos);
+    void move(Vec2 &delta) {};
+    size_t onKey() { return 0; };
 
     uint32_t *canvas_pixels_;
 
@@ -24,9 +26,10 @@ public:
     {
         try
         { 
-            canvas_pixels_ = new uint32_t[width_ * height_];
-            for (int i = 0; i < width_ * height_; ++i)
-                canvas_pixels_[i] = uint32_t(-1); 
+            // Make Normal Realloc
+            canvas_pixels_ = new uint32_t[500 * 500/*width_ * height_*/];
+            for (int i = 0; i < 500 * 500/*width_ * height_*/; ++i)
+                canvas_pixels_[i] = 0xFF000000 + uint32_t(color_); 
         }
         catch(std::bad_alloc except)
         {
@@ -36,19 +39,15 @@ public:
         }
     }
 
+    void register_callbacks(ActionManager *mng, Render *rnd);
+
+
     ~Canvas() { delete [] canvas_pixels_; }
 };
 
-
-
-inline void Canvas::draw(uint32_t *PixelArr) const
+inline void Canvas::register_callbacks(ActionManager *mng, Render *rnd)
 {
-    size_t x_start = pos_.getX() - width_  / 2,
-           y_start = pos_.getY() - height_ / 2;
-
-    for (int height = 0; height < height_; ++height)
-        for (int width = 0; width < width_; ++width)
-            PixelArr[x_start + width + (y_start + height) * Settings::Width]
-                                   = canvas_pixels_[width + height * width_]; 
-            // Need to make that operation correctly
+    mng->register_callbacks_onclick(
+                                {[this](Vec2 &pos){ onClick(pos); }, ON_CLICK});
+    rnd->register_callbacks([this](uint32_t *pixels){ draw(pixels); });
 }

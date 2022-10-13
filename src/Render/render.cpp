@@ -27,3 +27,16 @@ void Render::draw(const uint32_t *array) const
     texture.update((const uint8_t *) array);
     window_->draw(sprite);
 }
+
+void Render::drawAll()
+{
+    for (const auto &cb : draw_cb)
+        cb(pixels_);
+
+    draw(pixels_);
+}
+
+void Render::register_callbacks(std::function<void(uint32_t *pixels)> method)
+{
+    draw_cb.push_back(method);
+}
