@@ -34,25 +34,22 @@ int main()
     {
         sf::Event event;
         while (window.pollEvent(event))
-            switch(event.type)
-            {
-                case sf::Event::Closed:
-                {
-                    window.close();
-                    break;
-                }
-                case sf::Event::MouseButtonPressed:
-                {
-                    Vec2 pos = {size_t(sf::Mouse::getPosition().x),
-                                size_t(sf::Mouse::getPosition().y)};
-                    mng.onClick(pos);
-                    break;
-                }
-                default:
-                    // Unused event, my shit-code don't need this
-                    break;
-            }
+            if (event.type == sf::Event::Closed)
+                window.close();
         
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            Vec2 pos = {size_t(sf::Mouse::getPosition(window).x),
+                        size_t(sf::Mouse::getPosition(window).y)};
+            mng.onClick(pos, true);
+        }
+        else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        {
+            Vec2 pos = {size_t(sf::Mouse::getPosition(window).x),
+                        size_t(sf::Mouse::getPosition(window).y)};
+            mng.onClick(pos, false);
+        }
+
         render.drawAll();
 
         window.display();

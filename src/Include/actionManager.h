@@ -19,7 +19,7 @@ enum events
 /// callbacks only for specific events
 struct cb_storage_t
 {
-    std::function<void(Vec2&)> callback;
+    std::function<void(Vec2&, bool)> callback;
     events type;
 };
 
@@ -34,7 +34,7 @@ private:
 public:
     virtual void register_callbacks_onclick(cb_storage_t action);
     virtual void register_callback_color(std::function<uint32_t()> colorBotton);
-    virtual void onClick(Vec2 &pos);
+    virtual void onClick(Vec2 &pos, bool is_left);
 
     Vec3 getColor();
 
@@ -43,17 +43,28 @@ public:
 
 inline Vec3 ActionManager::getColor()
 {
-    uint8_t red   = 0,
-            green = 0,
-            blue  = 0;
+    uint32_t red   = 0,
+             green = 0,
+             blue  = 0;
+    
+    uint32_t color = 0;
 
     for (const auto &cb : color_callbacks)
     {
-        uint32_t temp = cb();
-        red   += (temp >>= 16) & 0x000000FF;
-        green += (temp >>= 8)  & 0x000000FF;
-        blue  += temp          & 0x000000FF;
+        color  += cb();
+        
+
+        // std::cout << "temp = " << temp << '\n';
+        // std::cout << "red = " << red << ", green = " << green
+        //           << ", blue = " << blue << '\n'; 
     }
+
+    blue  += (color >> 16) & 0x000000FF;
+    green += (color >> 8)  & 0x000000FF;
+    red   += color         & 0x000000FF;
+
+    std::cout << "red = " << red << ", green = " << green
+              << ", blue = " << blue << '\n'; 
 
     return Vec3(red, green, blue);
 }
@@ -68,11 +79,11 @@ inline void ActionManager::register_callbacks_onclick(cb_storage_t action)
     callbacks_.push_back(action);
 }
 
-inline void ActionManager::onClick(Vec2 &pos)
+inline void ActionManager::onClick(Vec2 &pos, bool is_left)
 {
     for (const auto &cb_obj : callbacks_)
     {
         if (cb_obj.type == ON_CLICK)
-            cb_obj.callback(pos);
+            cb_obj.callback(pos, is_left);
     }
 }

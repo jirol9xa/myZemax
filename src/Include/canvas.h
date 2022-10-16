@@ -10,25 +10,27 @@
 class Canvas : public Widget
 {
 private:
-    void draw(uint32_t *Pixels) const;
-    void close() {};
-    void onClick(Vec2 &pos);
-    void move(Vec2 &delta) {};
-    size_t onKey() { return 0; };
+    void draw(uint32_t *Pixels) const override;
+    void close() override {};
+    void onClick(Vec2 &pos, bool is_left) override;
+    void move(Vec2 &delta) override {};
+    size_t onKey() override { return 0; };
 
     uint32_t *canvas_pixels_;
 
     ActionManager *mng_;
 
 public:
-    Canvas(Vec2 pos, Vec3 color, ActionManager *mng) : Widget(pos, color), 
-                                                       mng_(mng) 
+    Canvas(Vec2 pos, Vec3 color, ActionManager *mng, size_t width = 200,
+           size_t height = 200) : Widget(pos, color), mng_(mng) 
     {
+        width_  = width;
+        height_ = height; 
+
         try
         { 
-            // Make Normal Realloc
-            canvas_pixels_ = new uint32_t[500 * 500/*width_ * height_*/];
-            for (int i = 0; i < 500 * 500/*width_ * height_*/; ++i)
+            canvas_pixels_ = new uint32_t[width_ * height_];
+            for (int i = 0; i < width_ * height_; ++i)
                 canvas_pixels_[i] = 0xFF000000 + uint32_t(color_); 
         }
         catch(std::bad_alloc except)
@@ -39,8 +41,7 @@ public:
         }
     }
 
-    void register_callbacks(ActionManager *mng, Render *rnd);
-
+    void register_callbacks(ActionManager *mng, Render *rnd) override;
 
     ~Canvas() { delete [] canvas_pixels_; }
 };
@@ -48,6 +49,7 @@ public:
 inline void Canvas::register_callbacks(ActionManager *mng, Render *rnd)
 {
     mng->register_callbacks_onclick(
-                                {[this](Vec2 &pos){ onClick(pos); }, ON_CLICK});
+                    {[this](Vec2 &pos, bool is_left){ onClick(pos, is_left); },
+                      ON_CLICK});
     rnd->register_callbacks([this](uint32_t *pixels){ draw(pixels); });
 }

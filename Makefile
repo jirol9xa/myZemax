@@ -1,6 +1,6 @@
 CC = clang++
 I_FLAG = -I ./src/Include
-C_FLAG = -c
+C_FLAG = -c -O3
 SFML_FLAGS 	= -lsfml-graphics -lsfml-window -lsfml-system
 DEBUG_FLAGS = -Wall -Wextra -Wpedantic -fsanitize=address,leak
 
