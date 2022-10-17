@@ -18,9 +18,7 @@ protected:
     void   onClick(Vec2 &pos, bool is_left) override;
     size_t onKey() override { return 0; };
 
-    uint32_t getColor() { 
-        std::cout << "color * is_pressed = " << uint32_t(color_) * is_pressed << '\n';
-        return uint32_t(color_) * is_pressed; }
+    uint32_t getColor() { return uint32_t(color_) * is_pressed; }
 
 public:
     Button(Vec2 pos, Vec3 color) : Widget(pos, color), is_pressed(false) {};

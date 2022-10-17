@@ -10,31 +10,21 @@ class Widget
 {
 protected:
     Vec2   pos_;
-    Vec3   color_;  // Need to make Vec3 for this shit
+    Vec3   color_;
     size_t width_;
     size_t height_;
 
-    // Need to fix this method, cause pos is position of top left angle,
-    // but here realization for middle of widget 
     bool is_hit(Vec2 &pos) const
     {
         ssize_t x_cent = pos_.getX(),
                 y_cent = pos_.getY(),
                 x      = pos.getX(),
                 y      = pos.getY();
-        
-        std::cout << "x = " << x << ", y = " << y << ", x_cent = " << x_cent
-                  << ", y_cent = " << y_cent << '\n';
 
         ssize_t delta_x = x - x_cent,
                 delta_y = y - y_cent;
 
-        std::cout << "delta_x = " << delta_x << ", delta_y = " << delta_y << '\n';
-
         return delta_x && delta_y && delta_x < width_ && delta_y < height_;
-
-        return (ssize_t(pos.getX()) - ssize_t(pos_.getX())) < width_ &&
-               (ssize_t(pos.getY()) - ssize_t(pos_.getY())) < height_; 
     }
 
     virtual void   draw(uint32_t *PixelArr) const   = 0;

@@ -17,6 +17,6 @@ void Button::onClick(Vec2 &pos, bool is_left)
 { 
     if (!is_hit(pos))
         return;
+
     is_pressed = is_left; 
-    std::cout << "is button pressed = " << is_pressed << '\n';
 }

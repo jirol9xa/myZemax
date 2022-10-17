@@ -37,8 +37,6 @@ public:
     virtual void onClick(Vec2 &pos, bool is_left);
 
     Vec3 getColor();
-
-    // virtual void callbacks() const;
 };
 
 inline Vec3 ActionManager::getColor()
@@ -50,21 +48,11 @@ inline Vec3 ActionManager::getColor()
     uint32_t color = 0;
 
     for (const auto &cb : color_callbacks)
-    {
         color  += cb();
-        
-
-        // std::cout << "temp = " << temp << '\n';
-        // std::cout << "red = " << red << ", green = " << green
-        //           << ", blue = " << blue << '\n'; 
-    }
 
     blue  += (color >> 16) & 0x000000FF;
     green += (color >> 8)  & 0x000000FF;
     red   += color         & 0x000000FF;
-
-    std::cout << "red = " << red << ", green = " << green
-              << ", blue = " << blue << '\n'; 
 
     return Vec3(red, green, blue);
 }
@@ -82,8 +70,6 @@ inline void ActionManager::register_callbacks_onclick(cb_storage_t action)
 inline void ActionManager::onClick(Vec2 &pos, bool is_left)
 {
     for (const auto &cb_obj : callbacks_)
-    {
         if (cb_obj.type == ON_CLICK)
             cb_obj.callback(pos, is_left);
-    }
 }
