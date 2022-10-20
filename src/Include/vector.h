@@ -7,41 +7,41 @@
 
 class VectorKernel
 {
-private:
-    double x_,
-           y_,
-           z_;
-    long double length_;
-
-public: 
-    VectorKernel(double x = 0, double y = 0, double z = 0) :
-                 x_(x), y_(y), z_(z), length_(-1) {}              
-
-    double getX() const { return x_; }
-    double getY() const { return y_; }
-    double getZ() const { return z_; }
-
-    double setX  (double x);
-    double setY  (double y);
-    double setZ  (double z);
-
-    const VectorKernel & operator=(const VectorKernel &ker);
+    private:
+        double x_,
+               y_,
+               z_;
+        long double length_;
     
-    const VectorKernel & operator+=(const VectorKernel &arg);
-    const VectorKernel & operator-=(const VectorKernel &arg);
-    const VectorKernel & operator*=(double coef); 
-
+    public: 
+        VectorKernel(double x = 0, double y = 0, double z = 0) :
+                     x_(x), y_(y), z_(z), length_(-1) {}              
     
-    void rotate(double angle);
-    void normolize();
-
-    double getLenSq() 
-    {
-        if (length_ < 0)
-            length_ = x_*x_ + y_*y_ + z_*z_;
-
-        return length_;
-    }
+        double getX() const { return x_; }
+        double getY() const { return y_; }
+        double getZ() const { return z_; }
+    
+        double setX  (double x);
+        double setY  (double y);
+        double setZ  (double z);
+    
+        const VectorKernel & operator=(const VectorKernel &ker);
+        
+        const VectorKernel & operator+=(const VectorKernel &arg);
+        const VectorKernel & operator-=(const VectorKernel &arg);
+        const VectorKernel & operator*=(double coef); 
+    
+        
+        void rotate(double angle);
+        void normolize();
+    
+        double getLenSq() 
+        {
+            if (length_ < 0)
+                length_ = x_*x_ + y_*y_ + z_*z_;
+    
+            return length_;
+        }
 };
 
 class Vector

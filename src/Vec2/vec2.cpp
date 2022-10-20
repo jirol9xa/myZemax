@@ -5,18 +5,14 @@
 
 size_t Vec2Kernel::setX(size_t x)
 {
-    size_t old_x = x_;
-    x_ = x;
-
-    return old_x;
+    std::swap(x, x_);
+    return x;
 }
 
 size_t Vec2Kernel::setY(size_t y)
 {
-    size_t old_y = y_;
-    y_ = y;
-
-    return old_y;    
+    std::swap(y, y_);
+    return y;
 }
 
 std::ostream & operator<<(std::ostream &os, Vec2 &vec)

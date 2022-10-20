@@ -27,16 +27,16 @@ struct cb_storage_t
 /// @brief  Action Manager for Buttons
 class ActionManager
 {  
-private:
-    std::vector<cb_storage_t> callbacks_;
-    std::vector<std::function<uint32_t()>> color_callbacks;
-
-public:
-    virtual void register_callbacks_onclick(cb_storage_t action);
-    virtual void register_callback_color(std::function<uint32_t()> colorBotton);
-    virtual void onClick(Vec2 &pos, bool is_left);
-
-    Vec3 getColor();
+    private:
+        std::vector<cb_storage_t> callbacks_;
+        std::vector<std::function<uint32_t()>> color_callbacks;
+    
+    public:
+        virtual void register_callbacks_onclick(cb_storage_t action);
+        virtual void register_callback_color(std::function<uint32_t()> colorBotton);
+        virtual void onClick(Vec2 &pos, bool is_left);
+    
+        Vec3 getColor();
 };
 
 inline Vec3 ActionManager::getColor()
