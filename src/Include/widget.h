@@ -29,10 +29,12 @@ class Widget
     
         virtual void   draw(uint32_t *PixelArr) const   = 0;
         virtual void   close()                          = 0;
-        virtual void   move(Vec2 &delta)                = 0;
         virtual void   onClick(Vec2 &pos, bool is_left) = 0;
         virtual size_t onKey()                          = 0;
-    
+        virtual void   move(Vec2 &&delta)               = 0;
+        virtual void   move(Vec2 &delta)    { move(std::move(delta)); }
+
+
     public:
         Widget(Vec2 pos = {0, 0}, Vec3 color = {255, 255, 255}, size_t width = 30,
                size_t height = 30) : pos_(pos), color_(color), width_(width),

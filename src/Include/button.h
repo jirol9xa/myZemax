@@ -14,7 +14,6 @@ class Button : public Widget
         void   press() { is_pressed = !is_pressed; }
         void   draw(uint32_t *PixelArr) const override;
         void   close() override{};
-        void   move(Vec2 &delta) override { pos_ += delta; }
         void   onClick(Vec2 &pos, bool is_left) override;
         size_t onKey() override { return 0; };
     
@@ -30,4 +29,6 @@ class Button : public Widget
                              ON_CLICK});
             rnd->register_callbacks([this](uint32_t *pixels){ draw(pixels); });
         }
+
+        void   move(Vec2 &&delta) override { pos_ += delta; }
 };

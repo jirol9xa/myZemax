@@ -1,4 +1,4 @@
-CC = clang++
+CC = clang++-12
 I_FLAG = -I ./src/Include
 C_FLAG = -c -O3
 SFML_FLAGS 	= -lsfml-graphics -lsfml-window -lsfml-system
@@ -7,7 +7,7 @@ DEBUG_FLAGS = -Wall -Wextra -Wpedantic -fsanitize=address,leak
 
 all: main.o vector.o render.o sphere.o scene.o plane.o vec2.o button.o vec3.o canvas.o
 	$(CC) main.o vector.o render.o sphere.o scene.o plane.o vec2.o button.o vec3.o canvas.o -o test $(SFML_FLAGS) $(DEBUG_FLAGS)
-clear:
+clean:
 	rm -rf *.o
 
 main.o:		main.cpp

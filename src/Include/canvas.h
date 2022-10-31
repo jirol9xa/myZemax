@@ -13,7 +13,7 @@ class Canvas : public Widget
         void draw(uint32_t *Pixels) const override;
         void close() override {};
         void onClick(Vec2 &pos, bool is_left) override;
-        void move(Vec2 &delta) override {};
+        void move(Vec2 &&delta) override {};
         size_t onKey() override { return 0; };
     
         uint32_t *canvas_pixels_;
